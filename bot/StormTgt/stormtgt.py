@@ -4,10 +4,14 @@ import sys
 
 import os
 import subprocess
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from config import path
 
 def hd_create(name):
-    handlers_path = os.path.join(path, "handlers")
+    # Определяем путь к папке handlers, которая на уровень выше текущего файла
+    parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    handlers_path = os.path.join(parent_dir, "handlers")
     handlers_template_path = os.path.join(os.path.dirname(__file__), "handler_template.py")
     new_handler_path = os.path.join(handlers_path, f"{name}.py")
     print("Template:", handlers_template_path)
@@ -36,3 +40,4 @@ if __name__ == "__main__":
         hd_create(sys.argv[2])
     else:
         print("Использование: stormtgt -hd <имя_хендлера>")
+
