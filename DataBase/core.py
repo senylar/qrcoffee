@@ -2,10 +2,13 @@ from typing import AsyncGenerator, final
 from contextlib import asynccontextmanager
 
 import sqlalchemy as sa
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlmodel import SQLModel, create_engine, select
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import sessionmaker
 from config import DB_URL
 
+#TODO: разобраться с импортом, и созданием движка
 
 # Create an asynchronous engine
 engine = create_async_engine(DB_URL, echo=True)
@@ -33,7 +36,7 @@ from aiogram.types import Message
 from typing import Callable, Awaitable, Dict, Any
 
 
-class CounterMiddleware(BaseMiddleware):
+class DBConnectorMdlw(BaseMiddleware):
 
     async def __call__(
         self,

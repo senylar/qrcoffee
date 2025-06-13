@@ -4,9 +4,9 @@ from sqlmodel import Field, SQLModel, Relationship, Column, JSON
 from pydantic import field_validator
 import re
 from DataBase.methods.baseMethods import BaseDbMethods
+from DataBase.methods.user import UserMethods
 
-
-class Users(SQLModel, BaseDbMethods, table=True):
+class Users(SQLModel, BaseDbMethods,UserMethods, table=True):
     id: int = Field(default=None, primary_key=True)
     telegram_id: int = Field(index=True, unique=True, nullable=False)
     name: Optional[str] = None
@@ -17,7 +17,6 @@ class Users(SQLModel, BaseDbMethods, table=True):
     balance: float = Field(default=0.0)
     qrcodes: List["QRCode"] = Relationship(back_populates="user")
     operations: List["Operations"] = Relationship(back_populates="user")
-    staff: Optional["Staff"] = Relationship()
 
     @field_validator("phone")
     def validate_phone(cls, v):
